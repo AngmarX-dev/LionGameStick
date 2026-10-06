@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# Start ui
+#
+
+MINIGUI=1  # minigui
+
+#hdmi on
+echo on > /sys/class/drm/card0-HDMI-A-1/status
+#:'
+
+#'
+# test
+aplay /usr/bin/test_start.wav
+#hdmi Add
+/usr/bin/drm-hotplug.sh
+case "$1" in
+  start)
+    printf "Starting ui: "
+    export XDG_CONFIG_HOME=/sdcard/
+    #start ui
+    #export MG_CFG_PATH=/etc
+    export MG_CFG_PATH=/usr/local/share/minigui/hdmicfg
+    /usr/bin/game &
+    
+
+   # cp /sdcard/retroarch /tmp && chmod 777 /tmp/retroarch
+   # /tmp/retroarch -y 12 -c /sdcard/zip.cfg -L /sdcard/fbalpha2012_libretro.so /sdcard/game/game/kof97.zip 
+    ;;
+  stop)
+    #killall ui
+    #killall -9 game_nosdcard &
+    killall -9 game &
+    printf "ui stop finished"
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+esac
