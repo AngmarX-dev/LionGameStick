@@ -1,0 +1,32 @@
+name: Graphics stack audit
+
+on:
+  push:
+    branches:
+      - recovery/05-rockchip-graphics-audit
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-graphics-audit:
+    name: Python syntax and fixture tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile audit script
+        run: python -m py_compile scripts/audit-graphics-stack.py
+      - name: Run fixture tests
+        run: python -m unittest discover -s tests -v
+      - name: Check command-line help
+        run: python scripts/audit-graphics-stack.py --help
