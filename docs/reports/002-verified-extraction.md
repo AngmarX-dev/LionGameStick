@@ -18,8 +18,9 @@ The audit found that all 1,330 files in the historical extracted filesystem alre
 ## Validation
 
 - Historical tree comparison: **1,330 / 1,330 paths matched by exact Git blob SHA; 0 mismatches**.
+- POSIX shell syntax check: **passed** using `sh -n` on the committed script contents.
 - Script execution and 7-Zip CRC test: **not run** because the binary archive is not available as a local file in this environment.
-- Shell static analysis: **not run**; no ShellCheck result is claimed.
+- ShellCheck: **not run**; ShellCheck is not installed in the validation environment.
 - Firmware build: **not run**; this is a recovery utility, not a firmware source change.
 - GitHub Actions: no workflow directory is present on `main`; no CI result is claimed.
 - Hardware verification: **not performed**.
