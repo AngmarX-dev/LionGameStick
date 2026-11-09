@@ -42,7 +42,8 @@ Added `scripts/audit-binaries.py`, a read-only inventory tool. It:
 ## Validation
 
 - Historical Git comparison: **1,330 / 1,330 exact blob matches**.
-- Python syntax and runtime validation: **not run in this environment**.
+- Python syntax validation: **passed** with `compile()`.
+- Synthetic runtime fixture: **passed** for regular files, ELF-magic detection, SHA-256 generation, CSV output, and symlink reporting. This is a script fixture test, not an inspection of the actual firmware binaries.
 - Firmware build: **not run**; no firmware source change is included.
 - GitHub Actions: no workflow runs are configured/reported for the recovery branches; no CI pass is claimed.
 - Physical hardware validation: **not performed**.
