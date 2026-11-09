@@ -42,7 +42,7 @@ def main():
     with open(args.output, "w", encoding="utf-8") as stream:
         json.dump({"duplicate_groups": findings, "group_count": len(findings)},
                   stream, indent=2)
-        stream.write("\\n")
+        stream.write("\n")
     print("Duplicate ELF groups: {}".format(len(findings)))
     for item in findings:
         print("{} bytes | {} paths | {} distinct names | {}".format(
