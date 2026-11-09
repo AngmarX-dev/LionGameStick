@@ -19,7 +19,7 @@ The history audit established that all 1,330 files in the previous `extracted/Ga
 ## Validation
 
 - Root filesystem path comparison: the 1,330 historical paths matched current Git blobs exactly.
-- POSIX shell syntax check: pending local validation at commit time.
+- POSIX shell syntax check: **passed** using `sh -n` on the committed script contents.
 - Archive creation and `tar -tzf` validation: not run in this environment.
 - Firmware build and hardware verification: not applicable / not performed.
 - GitHub Actions: no workflow is configured on `main`; no CI result is claimed.
