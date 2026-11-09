@@ -48,11 +48,11 @@ def inspect(path: Path, root: Path, file_cmd: str | None,
 
     kind = run_tool([file_cmd, "-b", str(path)]) if file_cmd else ""
     if not kind:
-        kind = "ELF" if magic == b"\\x7fELF" else "unknown (file utility unavailable)"
+        kind = "ELF" if magic == b"\x7fELF" else "unknown (file utility unavailable)"
 
     elf_class = endianness = machine = interpreter = ""
     needed: list[str] = []
-    if magic == b"\\x7fELF" and readelf_cmd:
+    if magic == b"\x7fELF" and readelf_cmd:
         header = run_tool([readelf_cmd, "-h", str(path)])
         for line in header.splitlines():
             stripped = line.strip()
