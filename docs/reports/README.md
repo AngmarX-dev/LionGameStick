@@ -11,12 +11,13 @@
 | [005-rockchip-graphics-stack-audit.md](005-rockchip-graphics-stack-audit.md) | `recovery/05-rockchip-graphics-audit` | ممیزی اولیه stack گرافیکی و ساخت ابزار inventory |
 | [006-elf-duplicate-payload-analysis.md](006-elf-duplicate-payload-analysis.md) | `recovery/05-rockchip-graphics-audit` | تحلیل تکرار payloadهای ELF و شناسایی نامزدهای مشکوک |
 | [007-complete-binary-and-elf-audit.md](007-complete-binary-and-elf-audit.md) | `recovery/05-rockchip-graphics-audit` | inventory جامع 769 فایل binary-like و تحلیل عمیق 591 فایل ELF |
+| [008-udevadm-arm-recovery-candidate.md](008-udevadm-arm-recovery-candidate.md) | `recovery/05-rockchip-graphics-audit` | ردیابی udevadm ناسازگار و نگهداری نامزد ARM در مسیر ایزوله |
 
 ## تاریخچه
 
 - 2026-11-09: بازیابی آرشیو اصلی و ایجاد روش‌های استخراج و بسته‌بندی غیرمخرب.
 - 2026-11-09: ایجاد ابزار ممیزی ABI و ممیزی تخصصی stack گرافیکی.
-- 2026-11-09: اجرای موفق workflow موجودی گرافیکی و انتشار CSV به‌عنوان artifact.
 - 2026-11-09: تحلیل گروه‌های hash یکسان ELF؛ شش گروه تکراری شناسایی شد.
-- 2026-11-09: ممیزی جامع کل مخزن؛ 769 فایل binary-like شناسایی و 591 فایل ELF تحلیل شد. یک ناسازگاری معماری x86-64 در `sbin/udevadm` پیدا شد که نیازمند بررسی منبع و نسخهٔ ARM است.
+- 2026-11-09: ممیزی جامع کل مخزن؛ 769 فایل binary-like شناسایی و 591 فایل ELF تحلیل شد.
+- 2026-11-09: یافتن نامزد ARM برای `sbin/udevadm` و نگهداری آن در `recovery-candidates/` بدون تغییر runtime. جایگزینی هنوز نیازمند تأیید نسخه و آزمایش روی سخت‌افزار است.
 - سیاست محافظه‌کارانه: هیچ باینری صرفاً بر اساس نام فایل یا حدس دربارهٔ مدل SoC جایگزین نمی‌شود.
