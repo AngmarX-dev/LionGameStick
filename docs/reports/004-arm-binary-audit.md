@@ -12,6 +12,19 @@
 - The historical extracted tree has 1,330 files; all 1,330 paths were matched against the current root by exact Git blob SHA.
 - The initial repository commit contains only two blobs; no older firmware binary snapshot is available in the visible eight-commit history.
 
+
+## Additional integrity signals from Git tree metadata
+
+A content-SHA grouping of the 1,332 tracked blobs found **116 duplicate-content groups covering 702 paths**, and **zero Git symlink entries**.
+
+Notable groups requiring byte-level inspection:
+- **256 executable paths** across `bin/`, `sbin/`, and `usr/bin/`/ `usr/sbin/` share one 674,748-byte blob (the BusyBox multicall command family).
+- **30 graphics-library paths** across `usr/lib/` and `usr/lib32/` share one 929,956-byte blob. These paths include EGL, GLES, Mali, OpenCL, and GBM names.
+- The presence of identical content under both `usr/lib/` and `usr/lib32/` is a high-priority ABI verification item. It is not enough to conclude corruption from Git metadata alone; the paths may be intentional aliases, but Git records them as regular files rather than symlinks.
+- 112 paths end in `.so` (including versioned shared-object names). This is a filename count, not a verified ELF count.
+
+**Do not normalize these duplicate groups or replace libraries yet.** First run the local inventory script and inspect the actual ELF class, machine, SONAME, loader, and DT_NEEDED values. If the `usr/lib32` objects are truly identical 64-bit or otherwise incompatible files, treat that as a firmware packaging defect and recover the correct 32-bit objects from a trusted source.
+
 ## Important inspection limitation
 
 The GitHub file-content endpoint cannot decode the raw bytes of `bin/busybox` as UTF-8. Therefore, no ELF architecture, ABI, endianness, dynamic loader, or dependency is asserted from the filename or extension. These properties require inspecting the actual binary bytes in a local checkout.
