@@ -14,9 +14,9 @@ permissions:
 
 jobs:
   validate-graphics-audit:
-    name: Python syntax, fixture tests and repository inventory
+    name: Validate scripts and inspect repository binaries
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -32,24 +32,29 @@ jobs:
         run: |
           python -m py_compile scripts/audit-graphics-stack.py
           python -m py_compile scripts/analyze-elf-duplicates.py
+          python -m py_compile scripts/audit-all-binaries.py
       - name: Run fixture tests
         run: python -m unittest discover -s tests -v
       - name: Check command-line help
         run: |
           python scripts/audit-graphics-stack.py --help
           python scripts/analyze-elf-duplicates.py --help
-      - name: Inventory repository graphics binaries
+          python scripts/audit-all-binaries.py --help
+      - name: Inventory graphics stack
         run: |
           python scripts/audit-graphics-stack.py . --output "$RUNNER_TEMP/graphics-stack-audit.csv"
-      - name: Analyze duplicate ELF payloads
-        run: |
           python scripts/analyze-elf-duplicates.py "$RUNNER_TEMP/graphics-stack-audit.csv" --output "$RUNNER_TEMP/elf-duplicate-audit.json"
-      - name: Upload graphics audit results
+      - name: Inventory all binary-like files and inspect ELF metadata
+        run: |
+          python scripts/audit-all-binaries.py . --csv "$RUNNER_TEMP/binary-inventory.csv" --json "$RUNNER_TEMP/elf-deep-analysis.json"
+      - name: Upload binary analysis
         uses: actions/upload-artifact@v4
         with:
-          name: graphics-stack-audit
+          name: complete-binary-analysis
           path: |
             ${{ runner.temp }}/graphics-stack-audit.csv
             ${{ runner.temp }}/elf-duplicate-audit.json
+            ${{ runner.temp }}/binary-inventory.csv
+            ${{ runner.temp }}/elf-deep-analysis.json
           if-no-files-found: error
           retention-days: 14
